@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Duyệt Bài</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar"><a href="index.html"><h2>Admin Panel</h2></a></div>
+    <div class="container">
+        <h3>Danh sách bài chờ duyệt</h3>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Giá</th>
+                    <th>Địa chỉ</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        async function loadPending() {
+            try {
+                const posts = await apiFetch('/admin/pending');
+                document.getElementById('table-body').innerHTML = posts.map(p => `
+                    <tr>
+                        <td>${p.title}</td>
+                        <td>${p.price.toLocaleString()} VNĐ</td>
+                        <td>${p.address}, ${p.city}</td>
+                        <td>
+                            <button onclick="approve(${p.id})" class="btn" style="background:green">Duyệt</button>
+                            <button onclick="del(${p.id})" class="btn" style="background:red">Xóa</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) { alert(err.message); }
+        }
+
+        async function approve(id) {
+            await apiFetch(`/admin/approve/${id}`, 'PUT');
+            loadPending();
+        }
+
+        async function del(id) {
+            await apiFetch(`/admin/delete/${id}`, 'DELETE');
+            loadPending();
+        }
+
+        loadPending();
+    </script>
+</body>
+</html>

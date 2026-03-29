@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Phòng</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar"><a href="index.html"><h2>TrọMới.vn</h2></a></div>
+    <div class="container">
+        <div class="form-box">
+            <h2>Đăng tin cho thuê</h2>
+            <form id="createForm">
+                <div class="form-group"><label>Tiêu đề</label><input type="text" id="title" required></div>
+                <div class="form-group"><label>Giá (VNĐ/tháng)</label><input type="number" id="price" required></div>
+                <div class="form-group"><label>Diện tích (m2)</label><input type="number" id="area" required></div>
+                <div class="form-group"><label>Thành phố</label><input type="text" id="city" required></div>
+                <div class="form-group"><label>Địa chỉ cụ thể</label><input type="text" id="address" required></div>
+                <div class="form-group"><label>Mô tả chi tiết</label><textarea id="description" rows="4" required></textarea></div>
+                <div class="form-group"><label>Hình ảnh</label><input type="file" id="image" accept="image/*" required></div>
+                <button type="submit" class="btn" style="width:100%">Gửi tin chờ duyệt</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+    <script>
+        if (!localStorage.getItem('token')) window.location.href = 'login.html';
+
+        document.getElementById('createForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('title', document.getElementById('title').value);
+            formData.append('price', document.getElementById('price').value);
+            formData.append('area', document.getElementById('area').value);
+            formData.append('city', document.getElementById('city').value);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('image', document.getElementById('image').files[0]);
+
+            try {
+                const res = await apiFetch('/posts', 'POST', formData, true);
+                alert(res.message);
+                window.location.href = 'index.html';
+            } catch (err) { alert(err.message); }
+        };
+    </script>
+</body>
+</html>

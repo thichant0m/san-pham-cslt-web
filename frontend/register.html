@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký tài khoản</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Đăng ký tài khoản mới</h2>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Họ và Tên</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn" style="width:100%">Đăng ký ngay</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 15px;">
+                Đã có tài khoản? <a href="login.html">Đăng nhập tại đây</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Nhúng file API để gọi lên Server -->
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault(); // Chặn tải lại trang
+            
+            try {
+                // Lấy dữ liệu người dùng nhập vào
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                // Gọi hàm apiFetch gửi lên Backend
+                const data = await apiFetch('/auth/register', 'POST', {
+                    name: name,
+                    email: email,
+                    password: password
+                });
+
+                // Báo thành công và chuyển sang trang đăng nhập
+                alert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.');
+                window.location.href = 'login.html';
+                
+            } catch (err) { 
+                // Báo lỗi (ví dụ: email đã tồn tại)
+                alert('Lỗi: ' + err.message); 
+            }
+        };
+    </script>
+</body>
+</html>
