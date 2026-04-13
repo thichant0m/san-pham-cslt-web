@@ -1,47 +1,122 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng Phòng</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Cho Thuê Trọ - Hệ Thống TrọMới</title>
+    <!-- Trỏ vào CSS dùng chung -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="navbar"><a href="index.html"><h2>TrọMới.vn</h2></a></div>
+    <!-- Trạm chờ gắn Header NavBar vào bằng JS -->
+    <div id="header-placeholder"></div>
+
+    <!-- KHU VỰC THÂN TRANG (BODY) -->
     <div class="container">
-        <div class="form-box">
-            <h2>Đăng tin cho thuê</h2>
-            <form id="createForm">
-                <div class="form-group"><label>Tiêu đề</label><input type="text" id="title" required></div>
-                <div class="form-group"><label>Giá (VNĐ/tháng)</label><input type="number" id="price" required></div>
-                <div class="form-group"><label>Diện tích (m2)</label><input type="number" id="area" required></div>
-                <div class="form-group"><label>Thành phố</label><input type="text" id="city" required></div>
-                <div class="form-group"><label>Địa chỉ cụ thể</label><input type="text" id="address" required></div>
-                <div class="form-group"><label>Mô tả chi tiết</label><textarea id="description" rows="4" required></textarea></div>
-                <div class="form-group"><label>Hình ảnh</label><input type="file" id="image" accept="image/*" required></div>
-                <button type="submit" class="btn" style="width:100%">Gửi tin chờ duyệt</button>
+        <!-- Khối Form Đăng Tin -->
+        <div class="form-container" style="max-width: 600px; margin-top: 30px;"> <!-- Cố tình cho khung FORM phình ngang to hơn (600px) so với cái đăng nhập (400px) để dễ gõ mô tả -->
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ff6600;">Thông Tin Phòng Trọ</h2>
+            
+            <!-- Thẻ Form gộp tất cả Dữ liệu phòng trọ vào 1 cục để xử lý gửi cho tiện. -->
+            <!-- enctype="multipart/form-data" là lệnh BẮT BUỘC nếu bạn muốn người dùng gắn File nén, Ảnh lên web -->
+            <form id="createForm" enctype="multipart/form-data">
+                
+                <!-- Nhập tên Tiêu đề tin đăng -->
+                <div class="form-group">
+                    <label>Tiêu đề bài đăng (Giật tít thu hút người xem):</label>
+                    <input type="text" id="title" required placeholder="Vd: Cho thuê phòng khép kín siêu rẻ ở Cầu Giấy...">
+                </div>
+
+                <!-- Cụm giá tiền và diện tích (chia 2 cột trên cùng 1 hàng bằng Grid nhỏ) -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Giá tiền thuê (VNĐ/tháng):</label>
+                        <!-- type="number" giúp chặn người ta vô duyên gõ chứ A, B, C vào ô Điền tiền -->
+                        <input type="number" id="price" required placeholder="Vd: 3000000">
+                    </div>
+                    <div class="form-group">
+                        <label>Diện tích sử dụng (m2):</label>
+                        <input type="number" id="area" required placeholder="Vd: 25">
+                    </div>
+                </div>
+
+                <!-- Cụm khai báo khu vực -->
+                <div class="form-group">
+                    <label>Tỉnh/Thành phố:</label>
+                    <input type="text" id="city" required placeholder="Vd: Hà Nội">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ Ngõ/Hẻm chi tiết:</label>
+                    <input type="text" id="address" required placeholder="Vd: Ngõ 32 Chùa Láng, Đống Đa...">
+                </div>
+
+                <!-- Cụm gõ giới thiệu cơ sở vật chất trọ -->
+                <div class="form-group">
+                    <label>Mô tả vật chất cụ thể nhất (Điều hòa, Nóng lạnh, Có chung chủ?):</label>
+                    <!-- rows="4" là kéo dài khung này xuống 4 dòng có sẵn để lỡ chèn chữ nhiều cũng k bị thụt -->
+                    <textarea id="description" rows="4" required placeholder="- Điện: 4k/số. Nước: 25k/khối..."></textarea>
+                </div>
+
+                <!-- Cụm gắn ảnh phòng -->
+                <div class="form-group">
+                    <label>Ảnh chụp căn phòng (Upload Hình):</label>
+                    <!-- type="file" biến nó thành hình cái Nút Upload. accept="image/*" nghĩa là "Tui chỉ nhận định dạng JPG/PNG..., chèn Word Excel lên tui CẤM" -->
+                    <input type="file" id="image" accept="image/*" required>
+                </div>
+
+                <!-- Nút nộp hồ sơ đăng bài -->
+                <button type="submit" class="btn" style="width:100%; padding: 15px; font-size: 16px;">
+                    📌 Gửi bài chờ Admin phê duyệt
+                </button>
             </form>
         </div>
     </div>
-    <script src="js/api.js"></script>
-    <script>
-        if (!localStorage.getItem('token')) window.location.href = 'login.html';
 
+    <!-- Nhúng API kết nối với Cổng Server Database -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // KỊCH BẢN BẢO MẬT: BẮT BUỘC ĐĂNG NHẬP ĐỂ CÓ THỂ ĐĂNG BÀI
+        // Kiểm tra xem User này đã Đăng nhập bao giờ chưa thông qua Token có trong Máy
+        if (!localStorage.getItem('token')) {
+            alert("Bạn phải đăng nhập thì hệ thống mới cho phép đăng thêm trọ bạn nhé!");
+            // Đẩy luôn sang trang đăng nhập ngay lập tức lập tức
+            window.location.href = 'login.html';
+        }
+
+        // Bất cứ khi user nhấn nút Đăng bài -> Hàm form này được gọi
         document.getElementById('createForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('title', document.getElementById('title').value);
-            formData.append('price', document.getElementById('price').value);
-            formData.append('area', document.getElementById('area').value);
-            formData.append('city', document.getElementById('city').value);
-            formData.append('address', document.getElementById('address').value);
-            formData.append('description', document.getElementById('description').value);
-            formData.append('image', document.getElementById('image').files[0]);
+            e.preventDefault(); // Tránh Refresh Form khiến việc tải lại trang xóa chữ
+
+            // Vì người dùng muốn lưu ẢNH, Web mình k thể gói ảnh đó lại thành Text Json nữa.
+            // FormData() giống như lấy 1 cái Bọc phong bì khổng lồ. 
+            // Bạn có thể nhét cả Text lẫn 1 Cục File (Tệp tin Ảnh Nhị Mật mã) vào phong bì đó.
+            const khoBaoDong = new FormData();
+            
+            // Xách đồ thả vào balo FormData thông qua lệnh .append (Nối/Nhét thêm)
+            khoBaoDong.append('title', document.getElementById('title').value);
+            khoBaoDong.append('price', document.getElementById('price').value);
+            khoBaoDong.append('area', document.getElementById('area').value);
+            khoBaoDong.append('city', document.getElementById('city').value);
+            khoBaoDong.append('address', document.getElementById('address').value);
+            khoBaoDong.append('description', document.getElementById('description').value);
+            
+            // Trọng tâm lấy Ảnh: .files[0] sẽ đại diện cho tấm ảnh ĐẦU TIÊN mà họ đã bấm Chọn
+            khoBaoDong.append('image', document.getElementById('image').files[0]);
 
             try {
-                const res = await apiFetch('/posts', 'POST', formData, true);
-                alert(res.message);
+                // apiFetch gọi Server để ném cái Bọc Phong bì kia lên Database
+                // /posts là đường dẫn chứa hàm Tạo Trọ ở Backend. true là báo với Server cho phép gửi kiểu Multipart/FormFile
+                const res = await apiFetch('/posts', 'POST', khoBaoDong, true);
+                
+                alert("Đăng tin thành công! Tin sẽ chờ kiểm duyệt của quản trị viên do chính sách chống lừa đảo đặt cọc.");
+                // Reset về trang chủ cho họ đi lựa tiếp
                 window.location.href = 'index.html';
-            } catch (err) { alert(err.message); }
+                
+            } catch (err) { 
+                alert("Lỗi không thể đăng được bài này, Kiểm tra lại hệ thống lưu trữ: " + err.message); 
+            }
         };
     </script>
 </body>

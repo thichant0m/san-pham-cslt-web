@@ -1,96 +1,100 @@
-
-<!-- Trang chủ -->
-<!DOCTYPE html><!--Khai bao day la tai nguyen HTML-->
-<html lang="vi"> <!-- thiet lap ngon ngu chinh la tiếng Việt cho trang web -->
-<head> 
-    <meta charset="UTF-8"> <!-- cai dat bo ma utf-8 -->
-    <title>Trang Chủ - Tìm Trọ</title> <!-- tieu de trang web -->
-    <link rel="stylesheet" href="css/style.css"><!-- liên kết đến file css/style.css -->
-</head> <!--ket thuc phan head -->
+﻿<!DOCTYPE html>
+<!-- Khai báo file HTML5 chuẩn -->
+<html lang="vi">
+<head>
+    <!-- Thiết lập bộ mã ký tự UTF-8 để gõ được tiếng Việt có dấu -->
+    <meta charset="UTF-8">
+    <!-- Cấu hình để trang web hiển thị tốt trên màn hình điện thoại -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Trang Chủ - Website Tìm Trọ, Nhà Nghỉ, Homestay</title>
+    
+    <!-- Liên kết đến file CSS để tạo giao diện, màu sắc cho trang web -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
 <body>
-    <header class = "header-main">
-        <div class="navbar"> <!-- Tạo 1 thẻ div làm thanh điều hướng -->
-            <!-- 1. CỤM LOGO -->
-            <a href="index.html"><h2>TrọMới.vn</h2></a> 
-            
-            <!-- 2. CỤM MENU MỚI THÊM (Phòng trọ, Nhà nghỉ, Homestay) -->
-            <div class="nav-menu">
-                <a href="phong-tro.html">Phòng trọ</a>
-                <a href="nha-nghi.html">Nhà nghỉ</a>
-                <a href="homestay.html">Homestay</a>
-            </div>
+    <!-- (1) VÙNG ĐẦU TRANG (HEADER) -->
+    <!-- Thẻ div này dùng làm "nơi chứa" nội dung header dùng chung do Javascript gắn vào -->
+    <div id="header-placeholder"></div>
 
-            <!-- 3. CỤM NÚT ĐĂNG NHẬP / ĐĂNG KÝ -->
-            <div class="nav-links" id="nav-links">
-                <a href="login.html" class="btn btn-outline">Đăng nhập</a>
-                <a href="register.html" class="btn">Đăng ký</a>
-                <a href="dang-tin.html" class="btn">Đăng Tin</a>
-            </div>
-        </div>
-    </header>
-    <div class="container"><!-- Tạo một khối bao bọc nội dung chính của trang (thường để căn giữa màn hình và tạo khoảng lề).-->
-        <h3>Danh sách phòng nổi bật</h3> <!-- tao 1 thanh tieu de noi bat-->
+    <!-- (2) VÙNG NỘI DUNG CHÍNH (BODY) -->
+    <!-- Container giúp gom nội dung vào giữa màn hình, cách lề trái phải cho đẹp -->
+    <div class="container">
+        <!-- Tiêu đề lớn của trang chủ -->
+        <h3>Danh Sách Phòng Nổi Bật</h3>
+        
+        <!-- Khối lưới (grid) để hiển thị danh sách các phòng trọ/nhà nghỉ dạng thẻ -->
         <div class="grid" id="posts-container">
-            <!-- Đổ dữ liệu từ JS -->
+            <!-- Dữ liệu phòng trọ sẽ được Javascript lấy từ Backend và đổ vào đây -->
+            <p>Đang tải danh sách phòng trọ...</p>
         </div>
     </div>
 
-    <script src="js/api.js"></script>
-    <script src="js/main.js"></script>
+    <!-- (3) VÙNG CHỨA CÁC ĐOẠN MÃ JAVASCRIPT -->
+    <!-- Gọi file chức năng gọi API kết nối tới Server/Backend -->
+    <script src="assets/js/api.js"></script>
+    
+    <!-- Gọi file code chung để xử lý thanh Header, đăng nhập... -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Viết trực tiếp mã Javascript riêng cho trang chủ này -->
     <script>
-        // Hàm này sẽ được gọi khi trang được tải xong để hiển thị danh sách phòng trọ
-        //co the thay the khi co backend thuc su, hien tai ta se dung du lieu gia de demo
+        // Hàm này tự động chạy để hiển thị bài đăng
         function loadPosts() {
-    // 1. Tự tạo một danh sách dữ liệu GIẢ (thay vì gọi lên Backend)
-            const fakePosts = [
-                //Danh sach phong tro goi y o trang chinh
+            // Danh sách dữ liệu phòng trọ "giả" (dùng tạm khi chưa có Backend)
+            const demoPosts = [
                 {
                     id: 1,
-                    title: "Phòng trọ khép kín Cầu Giấy",
-                    address: "Ngõ 175 Xuân Thủy",
+                    title: "Phòng trọ khép kín Cầu Giấy (Đầy đủ đồ)",
+                    address: "Ngõ 175 Xuân Thủy, Cầu Giấy, Hà Nội",
                     price: 2500000,
-                    // Dùng thẳng link ảnh tuyệt đối trên mạng (bắt đầu bằng http)
-                    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" 
+                    image: "assets/images/phong-tro-1.jpg" // Đường dẫn ảnh minh họa
                 },
                 {
                     id: 2,
-                    title: "Phòng trọ mini Đống Đa",
-                    address: "Ngõ 10 Tôn Thất Tùng",
-                    price: 3000000,
-                    // Dùng link lấy ảnh ngẫu nhiên
-                    image: "https://picsum.photos/400/300" 
+                    title: "Nhà nghỉ Bình Dân sạch sẽ",
+                    address: "Đường Láng, Đống Đa, Hà Nội",
+                    price: 200000,
+                    image: "assets/images/nha-nghi-1.jpg"
                 },                
                 {
                     id: 3,
-                    title: "Phòng trọ mini Đống Đa",
-                    address: "Ngõ 10 Tôn Thất Tùng",
-                    price: 3000000,
-                    // Dùng link lấy ảnh ngẫu nhiên
-                    image: "https://picsum.photos/400/300" 
+                    title: "Homestay Chill Ngoại Thành",
+                    address: "Ba Vì, Hà Nội",
+                    price: 800000,
+                    image: "assets/images/homestay-1.jpg"
                 }
-
             ];
 
+            // Tìm cái hộp (div) có id là 'posts-container' ở trên HTML
             const container = document.getElementById('posts-container');
             
-            // 2. In dữ liệu giả ra màn hình
-            container.innerHTML = fakePosts.map(p => `
+            // Lấy danh sách demoPosts, biến mỗi phần tử thành một khối HTML (thẻ card)
+            // .map() là vòng lặp duyệt qua từng phòng
+            // .join('') để nối tất cả các chuỗi HTML đó lại với nhau
+            container.innerHTML = demoPosts.map(room => `
                 <div class="card">
-                    <a href="post-detail.html?id=${p.id}">
-                        <!-- Đưa thẳng p.image vào src vì nó đã là link internet hoàn chỉnh -->
-                        <img src="${p.image}" alt="Ảnh phòng" style="width: 100%; height: 200px; object-fit: cover;">
+                    <!-- Bấm vào ảnh sẽ chuyển sang trang xem chi tiết (kèm ID của phòng) -->
+                    <a href="post-detail.html?id=${room.id}">
+                        <!-- style object-fit: cover giúp ảnh không bị méo khi thay đổi kích thước -->
+                        <img src="${room.image}" alt="Ảnh minh họa" style="width: 100%; height: 200px; object-fit: cover; background: #eee;">
                     </a>
+                    
+                    <!-- Phần chữ thông tin dưới bức ảnh -->
                     <div class="card-body">
-                        <h4>${p.title}</h4>
-                        <p>${p.address}</p>
-                        <p class="card-price">${p.price.toLocaleString()} VNĐ</p>
+                        <h4>${room.title}</h4>
+                        <p>📍 ${room.address}</p>
+                        <!-- toLocaleString() giúp hiển thị giá tiền có dấu phân cách hàng nghìn (VD: 2.500.000) -->
+                        <p class="card-price" style="color: red; font-weight: bold;">
+                            Giá: ${room.price.toLocaleString()} VNĐ
+                        </p>
                     </div>
                 </div>
             `).join('');
         }
+        
+        // Gọi hàm để đổ dữ liệu ra màn hình ngay khi trang vừa mở lên
         loadPosts();
-
-
     </script>
 </body>
 </html>

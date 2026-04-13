@@ -1,0 +1,161 @@
+﻿/*=============================================================
+   FILE CSS NÀY DÙNG CHUNG CHO TOÀN TRANG
+   Dùng để thiết kế trang trí màu sắc, kích thước, bo góc, bóng mờ
+=============================================================*/
+
+/* (1) RESET MẶC ĐỊNH: Đưa mọi thứ về chuẩn chung để các Cốc cốc, Chrome, Edge trông giống nhau */
+* {
+    margin: 0;       /* Xóa khoảng cách ngoài của mọi thẻ (ví dụ thẻ p tự nhiên hay thụt lề) */
+    padding: 0;      /* Xóa khoảng cách trong */
+    box-sizing: border-box; /* Bắt các thẻ đếm kích thước từ khung ngoài cùng, không phình to khi thêm padding */
+    font-family: Arial, sans-serif; /* Đặt font chữ mặc định là Arial (không có chân cho hiện đại) */
+}
+
+body {
+    background-color: #f4f4f4; /* Nền của cả trang web: Màu hơi xám nhạt để nổi bật thông tin */
+}
+
+/* (2) HỘP CONTAINERS (Ngăn không cho trang web bè hết cỡ ra lề trái phải) */
+.container {
+    max-width: 1200px; /* Chiều ngang tối đa là 1200px, màn hình có to bằng cái TV thì nó vẫn ở giữa */
+    margin: 20px auto; /* Tự động chia đều lề trái, lề phải (canh giữa tự động) */
+    padding: 0 20px;   /* Để 1 khoảng lùi 20px 2 bên, đỡ chạm sát mép màn hình khi thu nhỏ trên đt */
+}
+
+/* --- TRANG TRÍ CHO THANH MENU (HEADER) --- */
+.header-main {
+    background: #007bff;   /* Màu xanh dương tươi cho nguyên cái thanh ngang Header */
+    color: white;          /* Chữ bên trong Header bắt buộc hiển thị màu trắng mới không bị tối */
+    padding: 15px 0;       /* Cho thanh này phình cao lên trên dưới 15px */
+}
+
+/* Nơi dùng để xếp hàng ngang (Logo - Chuyên mục - Nút bấm) */
+.navbar {
+    max-width: 1200px;     /* Cho Header khớp thẳng hàng với thân (Body) */
+    margin: 0 auto;
+    display: flex;         /* Xếp các thứ ở trong lên cùng 1 hàng ngang (Flex-box) */
+    justify-content: space-between; /* Xếp tản ra: bên trái (Logo), ở giữa (Menu), bên phải (Login) */
+    align-items: center;   /* Canh chỉnh mọi thẻ nằm chính giữa chiều dọc so với nhau */
+    padding: 0 20px;
+}
+
+/* Phần Các mục ở giữa (Trọ, Nhà, Homestay) */
+.nav-menu {
+    display: flex;
+    gap: 20px;             /* Cách xa mỗi chữ ra 20px */
+}
+
+/* Dấu cho bất kì đường link (thẻ a) nào nằm trên Header */
+.navbar a {
+    color: white;           /* Chữ màu trắng */
+    text-decoration: none;  /* Xoá sạch cái đường gạch chân mạc định (của Hyperlink) đi */
+    font-weight: bold;      /* Chữ in đậm */
+}
+.navbar h2 {
+    margin: 0; /* Xóa lề chuẩn của cái thẻ to H2 */
+}
+
+/* NÚT BẤM (BUTTON) */
+.btn {
+    padding: 8px 16px;      /* Cục nút phình 8px trên dưới, 16px trái phải */
+    background: #28a745;    /* Nút chính sẽ là màu Xanh Lớn mạ (Thường cho: Đăng ký / Mua / Đăng tin) */
+    color: white !important;/* Trắng (!important ép buộc nó tuân theo chứ ko bị thứ khác đè lên) */
+    border: none;           /* Xóa viền màu đen xấu xí của nút mặc định đi */
+    border-radius: 4px;     /* Bo tròn bốn góc nút lại, làm nét cứng lại 4px */
+    cursor: pointer;        /* Biến con chuột thành Bàn Tay khi lướt lên nút (giống đang bấm dc) */
+    text-decoration: none;  /* Xoá gạch chân nếu làm bằng thẻ A */
+}
+
+.btn-outline {
+    background: transparent;/* Trong suốt, nhìn xuyên qua được (chỉ lấy viền) */
+    border: 1px solid white;/* Nhưng bù lại cho thêm viền trắng dày 1px */
+    color: white;
+}
+
+/* LƯỚI KHUNG (GRID) - Dùng trong Trang Chủ */
+.grid {
+    display: grid;          /* Kéo chế độ "Chia Lưới" để dễ sắp xếp các thẻ "Card" */
+    
+    /* grid-template-columns là sức mạnh của Lưới. 
+       - repeat: Cứ lặp đi lặp lại
+       - auto-fill: tự tính toán số ô cho đủ chiều ngang
+       - minmax(280px, 1fr): Ô phải to tối thiểu 280px, 
+         nếu dư đất thì cho mỗi ô giãn phần dư đều nhau (1fr) */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;              /* Khoảng cách ô cờ tướng (Card): 20px */
+    margin-top: 20px;
+}
+
+/* THẺ MÔ TẢ (CARD) - Từng phòng trọ */
+.card {
+    background: white;       /* Từng ô chữ nhật sẽ màu trắng (thân lại đang xám nhạt nền nổi hơn) */
+    border-radius: 8px;      /* Cong 4 góc khung chữ nhật */
+    overflow: hidden;        /* Ảnh to quá hay cái gì thò bừa ra khỏi mép khung => cắt gọn (chặt chém) */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Đổ một cái bóng xám mờ mờ mảo sau lưng (tạo cảm giác nổi chữ nhật lên 3D) */
+    transition: transform 0.3s;            /* Thêm hiệu ứng trơn/mượt thời gian 0.3 giây khi có chuyển động */
+}
+
+/* HIỆU ỨNG DI CHUỘT: Khi di chuột đè lến chữ nhật */
+.card:hover {
+    transform: translateY(-5px); /* Khối nảy nhẹ lên trời 5px (âm -> nhảy lên trên) */
+    /* Hỗ trợ thêm cho User biết là "à thì ra mi có đi chuột lướt qua" */
+}
+
+.card-body {
+    padding: 15px;         /*! Chữ thì k được đụng sát viền trắng, cách lui vô 15px cho vuông góc*/
+}
+
+.card-price {
+    color: red;           /* Giá phòng ai cũng nên gây chói chang sự chú ý -> Chọn đỏ */
+    font-weight: bold;    /* Tô đậm cái giá tiền */
+    font-size: 1.1em;     /* Làm chữ to lự hơn 1 tí đỉnh */
+    margin-top: 10px;
+}
+
+/* === BẢNG TRONG TRANG QUẢN LÝ (ADMIN) === */
+.admin-table {
+    width: 100%;            /* Bảng chiếm hết độ dài 100% của cửa số */
+    border-collapse: collapse; /* Nút lại các nét kẻ không để nó là nét kè đôi do đúp viền (giống Word/Excel) */
+    margin-top: 20px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.admin-table th, .admin-table td {
+    padding: 12px;          
+    text-align: left;       /* Ép góc trái mọi chữ */
+    border-bottom: 1px solid #ddd; /* Gạch 1 đường viền xám rành giới sau mỗi dòng của người gửi bài */
+}
+
+/* MÀU ĐẦU BẢNG */
+.admin-table th {
+    background-color: #007bff; /* Thanh ở đầu dùng chứa tiêu đề có nền xanh (match vs Header) */
+    color: white;              /* Chữ trắng */
+}
+
+/* === FORM BOX (GIAO DIỆN TRANG ĐĂNG NHẬP/ĐĂNG KÝ) === */
+.form-container {
+    max-width: 400px;        /* Chỉ để ô 400px, to quá chữ/mắt điền bị dão ra gớm */
+    margin: 50px auto;       /* Xuống 50px cách trần, cho tự chọn 2 bên Canh Trung Cực Căng */
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);/* Bóng đổ dày & mịn màng hơn cho form*/
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;         /* Đổi label thành Khối, chiếm 1 dòng để không chen cùng input Textbox */
+    margin-bottom: 5px;     /* Làm giãn cho cái khoảng để gõ rộng rãi */
+}
+
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+    width: 100%;            /* Bắt input text chạy ngang tẹt khung (100%) */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
