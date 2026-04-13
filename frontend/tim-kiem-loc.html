@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Kiếm Lọc Bộ Lọc - Hệ Thống TrọMới</title>
+    <!-- Nhúng CSS để lấy cái Grid và khung Form -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        /* Bổ sung một xíu CSS nhẹ dành riêng cho thanh ngang tìm kiếm này */
+        .search-bar-row {
+            display: flex;
+            gap: 15px; 
+            align-items: flex-end; /* Ép mọi ô phải nằm chạm thành phía dưới mướt phẳng */
+        }
+        .search-bar-row .form-group {
+            flex: 1; /* Chia đều độ rộng cho từng ô phân bằng nhau */
+            margin-bottom: 0; 
+        }
+    </style>
+</head>
+<body>
+    <!-- (1) Trạm chờ chèn thanh NavBar (Chống lặp code Header) -->
+    <div id="header-placeholder"></div>
+
+    <!-- (2) NỘI DUNG CHÍNH -->
+    <div class="container">
+        
+        <!-- Khối chứa bộ lộc (Form Lọc Tìm Kiếm) -->
+        <div class="form-container" style="max-width: 900px; margin-top: 30px; margin-bottom: 40px;">
+            <h2 style="text-align: center; color: #007bff; margin-bottom: 20px;">🔍 Bộ Lọc Tìm Phòng Trọ</h2>
+            
+            <!-- Thuộc tính 'onsubmit' sẽ giữ cho Form đừng Reload lại trang mà hãy chạy hàm Javascript -->
+            <form id="searchForm">
+                <div class="search-bar-row">
+                    
+                    <!-- Ô nhập khu vực (Ví dụ: Cầu Giấy, Đống Đa...) -->
+                    <div class="form-group">
+                        <label>Khu vực (Tỉnh/Thành/Quận):</label>
+                        <input type="text" id="city" placeholder="Nhập nơi bạn cần tìm...">
+                    </div>
+                    
+                    <!-- Ô giới hạn giá Max -->
+                    <div class="form-group">
+                        <label>Giá Cao Nhất (VNĐ):</label>
+                        <input type="number" id="maxPrice" placeholder="Vd: 3000000">
+                    </div>
+                    
+                    <!-- Nút Bấm Thực Thi Tìm Kiếm -->
+                    <div class="form-group" style="flex: 0.5;"> <!-- Nút bấm nên nhỏ hơn ô chữ 1 chút -->
+                        <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 16px;">
+                            Tìm Ngay
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Khối Hiển Thị Danh Sách Kết Quả Trả Về (Giống hệt ở Trang Chủ index) -->
+        <h3>Kết Quả Tìm Kiếm:</h3>
+        <div class="grid" id="posts-container">
+            <p style="color: gray; margin-top: 10px;">Bạn chưa thực hiện tìm kiếm nào. Gõ vào thanh tìm kiếm ở trên để bắt đầu!</p>
+        </div>
+    </div>
+
+    <!-- (3) CÁC FILE KẾT NỐI API TỚI MÁY CHỦ BACKEND -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+        // Đón lõng bấm nút CỦA cái Form Tìm Kiếm
+        document.getElementById('searchForm').onsubmit = async (event) => {
+            // Chặn cứng cái trò giật Loading Reload trang web
+            event.preventDefault(); 
+            
+            // Tìm và chọc vào bên trong ô HTML để rút cái Giá trị mà khách vừa gõ ra
+            const cityValue = document.getElementById('city').value.trim();
+            const maxPriceValue = document.getElementById('maxPrice').value.trim();
+
+            const container = document.getElementById('posts-container');
+            container.innerHTML = "<p>Đang quét dữ liệu từ máy chủ mỏi tay, đợi chút...</p>"; // Hiển thị Loading
+
+            try {
+                // Tạo một bản nháp Đường dẫn (Endpoint API)
+                // Ý tưởng: backend có thể code cái route kiểu: /posts/search?city=Hà Nội&maxPrice=3000000
+                // Tham số (?) gọi là 'Query Parameters' - Truyền tín hiệu kiểu tàng hình trên link URL
+                
+                let endpoint = '/posts/search?'; // Bắt đầu đường dẫn bộ lọc
+                
+                // Nếu họ có nhập Tên Tỉnh, thì nhét thêm chữ city=giá-trị đó vào URL
+                if(cityValue) endpoint += `city=${encodeURIComponent(cityValue)}&`;
+                
+                // Nếu họ nhập Giá Cửa Trên, thì nhét thêm chữ maxPrice=giá-trị đó vào
+                if(maxPriceValue) endpoint += `maxPrice=${encodeURIComponent(maxPriceValue)}`;
+
+                // Tiến hành lấy hàng
+                const posts = await apiFetch(endpoint, 'GET');
+
+                // NẾU BACKEND BẢO "MÓN NÀY K CÓ TỒN TẠI" -> posts = [] -> Length = 0
+                if (posts.length === 0) {
+                    container.innerHTML = "<p style='color: red;'>Rất tiếc! Không có phòng trọ nào khớp với mong muốn của bạn.</p>";
+                    return; // Đóng cái hàm này lại luôn, không chạy code ở dưới nữa
+                }
+
+                // Nếu có hàng (Length > 0), thì nổ Map vòng lặp ra thẻ bài 
+                container.innerHTML = posts.map(room => `
+                    <div class="card">
+                        <!-- Gọi lên Trang Chi tiết (bằng cách nhét mã ID cục phòng đó vào link) -->
+                        <a href="post-detail.html?id=${room.id}">
+                            <img src="${room.image}" alt="Ảnh minh họa" style="width: 100%; height: 200px; object-fit: cover;">
+                        </a>
+                        <div class="card-body">
+                            <h4>${room.title}</h4>
+                            <p>📍 ${room.address}</p>
+                            <!-- toLocaleString() phẩy cách chục nghìn kiểu VN-->
+                            <p class="card-price" style="color: red; font-weight: bold;">
+                                Giá: ${room.price.toLocaleString()} VNĐ
+                            </p>
+                        </div>
+                    </div>
+                `).join(''); 
+
+            } catch (err) {
+                 // Nếu Database Backend đang cúp điện hay đứt cáp gì đó...
+                 container.innerHTML = `<p style="color: red;">Lỗi Lọc Dữ liệu: ${err.message}</p>`;
+            }
+        };
+    </script>
+</body>
+</html>

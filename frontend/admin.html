@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<!-- Khai báo chuẩn HTML5 và tiếng Việt -->
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khu vực Quản trị (Admin) - TrọMới.vn</title>
+    <!-- Trỏ vào file CSS dùng chung để tạo định dạng bảng và màu sắc -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- (1) THANH ĐIỀU HƯỚNG DÙNG CHUNG -->
+    <!-- Gọi cái div này để File main.js tự động nhét thanh Menu (Header) vào để Admin dễ dàng bấm quay lại các trang khác -->
+    <div id="header-placeholder"></div>
+
+    <!-- (2) NỘI DUNG CHÍNH CỦA TRANG ADMIN -->
+    <div class="container">
+        <!-- Đặt tiêu đề choh2 trang quản trị -->
+        <h2 style="margin-top: 20px; color: #333;">Quản Lý Bài Đăng Chờ Duyệt</h2>
+        
+        <!-- Bảng thống kê danh sách bài viết -->
+        <table class="admin-table">
+            <!-- Thẻ thead báo hiệu đây là dòng đầu tiên của bảng (Tiêu đề bảng) -->
+            <thead>
+                <tr>
+                    <!-- th = Table Header (Ô chứa tiêu đề) -->
+                    <th>Tiêu đề bài viết</th>
+                    <th>Giá đăng</th>
+                    <th>Địa chỉ</th>
+                    <th>Chức năng xử lý</th>
+                </tr>
+            </thead>
+            <!-- Thẻ tbody báo hiệu đây là phần thông tin ruột bảng (Dùng JavaScript để nhét dữ liệu vào đây) -->
+            <tbody id="table-body">
+                <tr>
+                    <td colspan="4" style="text-align: center;">Đang lấy dữ liệu từ hệ thống...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- (3) CÁC TỆP JS CẦN THIẾT YÊU CẦU CHO ADMIN -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // KỊCH BẢN BẢO MẬT: KIỂM TRA QUYỀN
+        // Trước khi hiển thị bất cứ thứ gì, ta phải chắc chắn rằng người đang xem trang là 1 Admin
+        document.addEventListener('DOMContentLoaded', () => {
+            const userString = localStorage.getItem('user');
+            
+            // Nếu chưa đăng nhập hoặc đăng nhập rồi nhưng không phải quyền 'admin' 
+            if (!userString || JSON.parse(userString).role !== 'admin') {
+                alert("Bạn không có quyền truy cập trang quản trị này!");
+                // Đá văng ra khỏi trang Admin, chuyển thẳng về Trang chủ
+                window.location.href = "index.html"; 
+            } else {
+                // Nếu đúng là admin, mới bắt đầu gọi hàm tải dữ liệu lên Bảng
+                loadPending();
+            }
+        });
+
+        // Hàm gọi danh sách các bài đăng đang "chờ duyệt" từ Backend
+        async function loadPending() {
+            try {
+                // Sử dụng apiFetch (chứa sẵn Token Admin trong lúc login) gọi Route Lấy bài viết chưa duyệt
+                const posts = await apiFetch('/admin/pending');
+                
+                // Trường hợp không có bài đăng thì thông báo ra cho đỡ trống bảng
+                if(posts.length === 0) {
+                    document.getElementById('table-body').innerHTML = `
+                        <tr><td colspan="4" style="text-align: center; color: green;">Không có bài nào đang chờ duyệt. Mọi thứ đã hoàn thành!</td></tr>
+                    `;
+                    return;
+                }
+
+                // Map dữ liệu thành thẻ tạo bảng giống như mảng trong Trang Chủ
+                document.getElementById('table-body').innerHTML = posts.map(p => `
+                    <tr>
+                        <!-- p là viết tắt của post, p.title là gọi ra Tiêu đề phòng -->
+                        <td><strong>${p.title}</strong></td>
+                        <!-- Cập nhật giá theo kiểu phân chia nghìn đồng Việt Nam -->
+                        <td style="color: red; font-weight: bold;">${p.price.toLocaleString()} VNĐ</td>
+                        <td>${p.address}, ${p.city}</td>
+                        <td>
+                            <!-- Hàm duyệt: khi bấm vào sẽ lấy ID của bài viết để gửi lên Backend -->
+                            <button onclick="approve(${p.id})" class="btn" style="background:green">✅ Duyệt bài</button>
+                            <!-- Hàm xóa: tương tự, trỏ thẳng tới ID của bài cần xóa -->
+                            <button onclick="del(${p.id})" class="btn" style="background:red">❌ Xóa / Từ chối</button>
+                        </td>
+                    </tr>
+                `).join(''); // Nối các mảnh chữ HTML này lại
+                
+            } catch (err) { 
+                // Nếu báo lỗi hoặc chưa có Token Admin
+                alert("Lỗi khi tải danh sách: " + err.message); 
+            }
+        }
+
+        // --- CÁC HÀM XỬ LÝ NÚT BẤM (HÀNH ĐỘNG CỦA ADMIN) --- //
+        
+        // 1. Hàm Duyệt Bài Viết
+        async function approve(id) {
+            // Confirm trước khi thực thi lỡ Admin bấm nhầm
+            if(!confirm("Bạn có chắc chắn muốn Duyệt hiển thị bài đăng này?")) return;
+
+            try {
+                // Gọi API phương thức PUT đi kèm ID trên đuôi (Đây là dạng RESTful API phổ biến)
+                await apiFetch(`/admin/approve/${id}`, 'PUT');
+                alert("Đã duyệt bài đăng thành công, hệ thống đã hiển thị ra Trang Chủ.");
+                
+                // Sau khi Duyệt xong, tải lại bảng để bảng cập nhật dữ liệu mới nhất (bài này bị mất đi)
+                loadPending();
+            } catch (error) {
+                alert("Duyệt thất bại: " + error.message);
+            }
+        }
+
+        // 2. Hàm Xóa Bài Viết
+        async function del(id) {
+            // Xác nhận kĩ lại lần nữa, xóa thường là hành vi rủi ro cao vì ko thể khôi phục lại (Delete from Database)
+            if(!confirm("Bạn có chắc chắn muốn TỪ CHỐI & XÓA VĨNH VIỄN bài đăng này không?")) return;
+            
+            try {
+                // Gọi Method DELETE vào Route của Backend
+                await apiFetch(`/admin/delete/${id}`, 'DELETE');
+                alert("Đã xoá bài đăng thành công.");
+                
+                // Tương tự, Refresh tải lại nội dung lấy bảng mới sau khi xóa
+                loadPending();
+            } catch (error) {
+                alert("Xóa thất bại: " + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

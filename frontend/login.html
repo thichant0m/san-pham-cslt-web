@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<!-- Khai báo ngôn ngữ là tiếng Việt -->
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - Hệ Thống Tìm Trọ</title>
+    <!-- Trỏ tới file style.css để lấy các định dạng màu sắc cho giao diện -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- (1) VÙNG ĐẦU TRANG -->
+    <!-- Gọi cái div này để File main.js tự động nhét thanh Menu (Header) vào đây -->
+    <div id="header-placeholder"></div>
+
+    <!-- (2) VÙNG NỘI DUNG CHÍNH (BODY) -->
+    <!-- Thẻ container để canh lề -->
+    <div class="container">
+        <!-- Khối form-container được CSS thu hẹp kích thước lại cho vừa với khung đăng nhập (cỡ 400px) -->
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 20px;">Đăng Nhập Hệ Thống</h2>
+            
+            <!-- Thẻ form bao bọc các ô nhập liệu. 
+                 Sự kiện 'onsubmit' sẽ kích hoạt hàm handleLogin khi người dùng bấm nút Đăng nhập -->
+            <form onsubmit="handleLogin(event)">
+                
+                <!-- Khu vực nhập Tài Khoản -->
+                <div class="form-group">
+                    <label>Tên đăng nhập:</label>
+                    <input type="text" id="username" required placeholder="Nhập tên tài khoản của bạn...">
+                </div>
+                
+                <!-- Khu vực nhập Mật khẩu -->
+                <div class="form-group">
+                    <label>Mật khẩu:</label>
+                    <input type="password" id="password" required placeholder="Nhập mật khẩu (ẩn)...">
+                </div>
+                
+                <!-- Nút Submit (Xác nhận gửi Form) -->
+                <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 16px;">Đăng Nhập</button>
+                
+                <!-- Dòng điều hướng nếu chưa có tài khoản -->
+                <p style="text-align: center; margin-top: 15px;">
+                    Chưa có tài khoản? <a href="register.html" style="color: #007bff; text-decoration: underline;">Đăng ký ngay</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- (3) CÁC ĐOẠN MÃ JAVASCRIPT XỬ LÝ -->
+    <!-- Gọi API và thanh Header chung -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Hàm này sẽ chạy khi người dùng bấm nút "Đăng Nhập"
+        async function handleLogin(event) {
+            // Lệnh quan trọng: Ngăn chặn trình duyệt load (tải) lại trang web khi bấm Submit form.
+            // Nếu không có nó, trang sẽ load lại và làm mất dữ liệu người dùng vừa nhập.
+            event.preventDefault();
+            
+            // Lấy giá trị (những gì người dùng nhập) từ 2 ô input Tài khoản và Mật khẩu
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                // Hàm apiFetch (ở file api.js) dùng để gửi dữ liệu lên Backend kiểm tra
+                // Route '/auth/login' là đường dẫn kiểm tra mật khẩu trên Backend
+                const res = await apiFetch('/auth/login', 'POST', { username, password });
+                
+                // Nếu đúng tài khoản: Backend trả về 'token' (chìa khóa) và 'user' (thông tin)
+                // Lưu token vào localStorage (bộ nhớ tạm của trình duyệt) để dùng cho các phiên làm việc tiếp theo
+                localStorage.setItem('token', res.token);
+                // Lưu thông tin bằng JSON.stringify (biến đổi dữ liệu thành chữ) để lưu chữ vào web
+                localStorage.setItem('user', JSON.stringify(res.user));
+                
+                // Báo thành công
+                alert('Đăng nhập thành công!');
+                
+                // Mọi thứ hoàn tất -> Đẩy người dùng trở về Trang chủ
+                window.location.href = 'index.html';
+                
+            } catch (err) {
+                // Nếu trả về lỗi (sai pass hoặc ko có tài khoản), hiện thông báo trên màn hình
+                alert('Lỗi đăng nhập: ' + err.message);
+            }
+        }
+    </script>
+</body>
+</html>
