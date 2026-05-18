@@ -1,0 +1,305 @@
+/* Styling cho phần tìm kiếm mới */
+.search-section {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+    min-height: 400px; /* Tăng chiều cao để tạo điểm nhấn */
+    padding: 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 40px;
+}
+
+.search-section::before {
+    content: "Tìm kiếm chỗ ở lý tưởng của bạn";
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.search-container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.search-box {
+    background-color: #2b2f3e; /* Màu nền tối giống thiết kế */
+    border-radius: 16px;
+    padding: 10px 10px 10px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.search-input-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-icon {
+    color: #8892a0;
+    font-size: 1.1rem;
+}
+
+.search-input-group input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-input-group input::placeholder {
+    color: #8892a0;
+}
+
+.search-divider {
+    width: 1px;
+    height: 30px;
+    background-color: #3f4458;
+    margin: 0 15px;
+}
+
+.search-select-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 15px;
+}
+
+.filter-icon {
+    color: #8892a0;
+}
+
+.search-select-group select {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none; /* Ẩn mũi tên mặc định */
+    padding-right: 20px;
+}
+
+.search-select-group select option {
+    background-color: #2b2f3e;
+    color: #fff;
+}
+
+/* Mũi tên tùy chỉnh cho select */
+.search-select-group {
+    position: relative;
+}
+.search-select-group::after {
+    content: '\f107'; /* fa-angle-down */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #fff;
+    position: absolute;
+    right: 15px;
+    pointer-events: none;
+}
+
+.btn-search {
+    background-color: #e06c3a; /* Màu cam */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-search:hover {
+    background-color: #cc5c2c;
+}
+
+.search-suggestions {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestion-label {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.suggestion-tag {
+    background-color: transparent;
+    border: 1px solid #d1d5db;
+    color: #4b5563;
+    padding: 5px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.suggestion-tag:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+@media (max-width: 768px) {
+    .search-box {
+        flex-direction: column;
+        border-radius: 12px;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .search-divider {
+        width: 100%;
+        height: 1px;
+        margin: 0;
+    }
+    
+    .search-select-group {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .btn-search {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .search-suggestions {
+        flex-wrap: wrap;
+    }
+}
+
+.featured {
+    padding: 4rem 15px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #1f2937;
+    margin-bottom: 2.5rem;
+}
+
+/* CSS cho lưới các danh sách phòng trọ */
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* CSS cho Thẻ phòng trọ (Room Card) */
+.room-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.room-img {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+}
+
+.room-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.room-card:hover .room-img img {
+    transform: scale(1.05);
+}
+
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #27ae60;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.room-content {
+    padding: 1.5rem;
+}
+
+.room-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+}
+
+.room-title a {
+    color: #1f2937;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.room-title a:hover {
+    color: #e06c3a;
+}
+
+.room-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 1rem;
+}
+
+.room-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 1rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.room-info span i {
+    margin-right: 5px;
+    color: #9ca3af;
+}
+
+.room-address {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.room-address i {
+    color: #e06c3a;
+    margin-right: 5px;
+}
+
+.view-more {
+    text-align: center;
+    margin-top: 3rem;
+}

@@ -1,0 +1,240 @@
+function getBasePathFromScript() {
+    const scripts = document.getElementsByTagName('script');
+    for (let script of scripts) {
+        let src = script.getAttribute('src');
+        if (src && src.includes('core/utils/data.js')) {
+            return src.replace('core/utils/data.js', '');
+        }
+    }
+    return '';
+}
+const windowBasePath = getBasePathFromScript();
+
+// Dữ liệu mô phỏng (Mock Data) cho 15 phòng trọ
+const roomData = [
+    {
+        id: 1,
+        title: "Phòng trọ cao cấp, full nội thất, ban công thoáng mát",
+        price: 3500000,
+        area: 30,
+        type: "tro",
+        address: "Ngõ 233 Xuân Thủy, Phường Dịch Vọng Hậu",
+        district: "Cầu Giấy",
+        city: "Hà Nội",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong1/id (36).jpg",
+        badges: ["Kiểm duyệt"]
+    },
+    {
+        id: 2,
+        title: "Studio mini giá sinh viên, an ninh 24/7",
+        price: 2200000,
+        area: 20,
+        type: "tro",
+        address: "Đường Kha Vạn Cân, Phường Linh Tây",
+        district: "Thủ Đức",
+        city: "TP. Hồ Chí Minh",
+        bedrooms: "Studio",
+        bathrooms: 1,
+        amenities: ["wifi", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong2/id (38).jpg",
+        badges: []
+    },
+    {
+        id: 3,
+        title: "Nhà nguyên căn 2 tầng trong ngõ rộng, ô tô đỗ cửa",
+        price: 6500000,
+        area: 65,
+        type: "nha",
+        address: "Đường Núi Thành, Phường Hòa Cường Bắc",
+        district: "Hải Châu",
+        city: "Đà Nẵng",
+        bedrooms: 2,
+        bathrooms: 2,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "tulanh"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong3/id (1).jpg",
+        badges: ["Mới đăng"]
+    },
+    {
+        id: 4,
+        title: "Căn hộ dịch vụ dành cho người đi làm",
+        price: 5000000,
+        area: 40,
+        type: "canho",
+        address: "Ngõ 105 Láng Hạ",
+        district: "Cầu Giấy",
+        city: "Hà Nội",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong4/id (3).jpg",
+        badges: ["Kiểm duyệt", "Hot"]
+    },
+    {
+        id: 5,
+        title: "Phòng trọ gác xép, giờ giấc tự do",
+        price: 2800000,
+        area: 25,
+        type: "tro",
+        address: "Đường Nguyễn Gia Trí, Phường Linh Trung",
+        district: "Thủ Đức",
+        city: "TP. Hồ Chí Minh",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["wifi", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong5/id (3).jpg",
+        badges: ["Mới đăng"]
+    },
+    {
+        id: 6,
+        title: "Chung cư mini view Hồ Tây lộng gió",
+        price: 4500000,
+        area: 35,
+        type: "canho",
+        address: "Trích Sài, Phường Bưởi",
+        district: "Tây Hồ",
+        city: "Hà Nội",
+        bedrooms: "Studio",
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe", "camera"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong6/id (6).jpg",
+        badges: ["View đẹp"]
+    },
+    {
+        id: 7,
+        title: "Nhà nguyên căn 3 phòng ngủ đầy đủ tiện nghi",
+        price: 8000000,
+        area: 80,
+        type: "nha",
+        address: "Huỳnh Tấn Phát",
+        district: "Bình Thạnh",
+        city: "TP. Hồ Chí Minh",
+        bedrooms: 3,
+        bathrooms: 3,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe", "tulanh"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong7/id (10).jpg",
+        badges: []
+    },
+    {
+        id: 8,
+        title: "Phòng trọ sinh viên gần ĐH Bách Khoa",
+        price: 1500000,
+        area: 15,
+        type: "tro",
+        address: "Tạ Quang Bửu",
+        district: "Hai Bà Trưng",
+        city: "Hà Nội",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["wifi", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong8/id (12).jpg",
+        badges: ["Giá rẻ"]
+    },
+    {
+        id: 9,
+        title: "Phòng master rộng rãi, free dịch vụ",
+        price: 3200000,
+        area: 28,
+        type: "tro",
+        address: "Nguyễn Văn Linh",
+        district: "Liên Chiểu",
+        city: "Đà Nẵng",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong9/id (15).jpg",
+        badges: ["Kiểm duyệt"]
+    },
+    {
+        id: 10,
+        title: "Căn hộ chung cư cao cấp Vinhome",
+        price: 12000000,
+        area: 75,
+        type: "canho",
+        address: "Nguyễn Hữu Cảnh",
+        district: "Bình Thạnh",
+        city: "TP. Hồ Chí Minh",
+        bedrooms: 2,
+        bathrooms: 2,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe", "camera", "ho_boi"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong10/id (18).jpg",
+        badges: ["VIP"]
+    },
+    {
+        id: 11,
+        title: "Ký túc xá Sleepbox cao cấp Tôn Thất Tùng",
+        price: 1200000,
+        area: 5,
+        type: "tro",
+        address: "Tôn Thất Tùng",
+        district: "Đống Đa",
+        city: "Hà Nội",
+        bedrooms: 1,
+        bathrooms: 3, // Dùng chung
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong11/id (21).jpg",
+        badges: ["Mới cập nhật"]
+    },
+    {
+        id: 12,
+        title: "Căn hộ 1 phòng ngủ siêu đẹp gần biển",
+        price: 5500000,
+        area: 50,
+        type: "canho",
+        address: "Võ Nguyên Giáp",
+        district: "Sơn Trà",
+        city: "Đà Nẵng",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong12/id (24).jpg",
+        badges: []
+    },
+    {
+        id: 13,
+        title: "Phòng trọ tự quản, khóa vân tay",
+        price: 2500000,
+        area: 25,
+        type: "tro",
+        address: "Đại lộ Bình Dương",
+        district: "Thủ Dầu Một",
+        city: "Bình Dương",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "cho_de_xe", "camera"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong13/id (27).jpg",
+        badges: ["An ninh"]
+    },
+    {
+        id: 14,
+        title: "Nhà cấp 4 có sân để xe rộng",
+        price: 4000000,
+        area: 50,
+        type: "nha",
+        address: "Đường Nguyễn Trãi",
+        district: "Dĩ An",
+        city: "Bình Dương",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["wifi", "cho_de_xe"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong14/id (30).jpg",
+        badges: []
+    },
+    {
+        id: 15,
+        title: "Penthouse Cầu Giấy full ban công kính",
+        price: 8500000,
+        area: 55,
+        type: "canho",
+        address: "Khu đô thị Dịch Vọng",
+        district: "Cầu Giấy",
+        city: "Hà Nội",
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: ["dieu_hoa", "wifi", "may_giat", "cho_de_xe", "camera"],
+        image: "" + windowBasePath + "assets/images/images-phong/phong15/id (33).jpg",
+        badges: ["Check in"]
+    }
+];

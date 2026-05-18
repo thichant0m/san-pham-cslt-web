@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm - Tìm Phòng Trọ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../shared/global.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="../home/home.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="container" style="display: flex; margin-top: 20px;">
+        <aside class="filter">
+            <h3>Bộ lọc</h3>
+            
+            <div class="filter-group" style="margin-bottom: 20px;">
+                <h4>Tìm theo tên</h4>
+                <input type="text" id="filter-text" placeholder="Nhập tiêu đề phòng..." style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+
+            <div class="filter-group">
+                <h4>Loại phòng</h4>
+                <label><input type="checkbox" class="filter-type" value="tro"> Phòng trọ</label>
+                <label><input type="checkbox" class="filter-type" value="canho"> Căn hộ</label>
+                <label><input type="checkbox" class="filter-type" value="nha"> Nhà nguyên căn</label>
+                <label><input type="checkbox" class="filter-type" value="sleepbox"> Sleepbox</label>
+            </div>
+
+            <div class="filter-group" style="margin-top: 20px;">
+                <h4>Mức giá</h4>
+                <label><input type="radio" name="price" class="filter-price" value="all" checked> Tất cả</label>
+                <label><input type="radio" name="price" class="filter-price" value="under2"> Dưới 2 triệu</label>
+                <label><input type="radio" name="price" class="filter-price" value="2to5"> 2 - 5 triệu</label>
+                <label><input type="radio" name="price" class="filter-price" value="over5"> Trên 5 triệu</label>
+            </div>
+
+            <div class="filter-group" style="margin-top: 20px;">
+                <h4>Tiện ích</h4>
+                <label><input type="checkbox" class="filter-amenity" value="dieu_hoa"> <i class="fas fa-snowflake"></i> Điều hòa</label>
+                <label><input type="checkbox" class="filter-amenity" value="may_giat"> <i class="fas fa-tshirt"></i> Máy giặt</label>
+                <label><input type="checkbox" class="filter-amenity" value="wifi"> <i class="fas fa-wifi"></i> Wifi</label>
+                <label><input type="checkbox" class="filter-amenity" value="cho_de_xe"> <i class="fas fa-motorcycle"></i> Chỗ để xe</label>
+            </div>
+        </aside>
+        <section class="results">
+            <h2>Kết quả tìm kiếm</h2>
+            <div class="room-grid" id="search-results-container">
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="../../core/utils/data.js"></script>
+    <script src="../../shared/main.js"></script>
+    <script src="filter.js"></script>
+</body>
+</html>

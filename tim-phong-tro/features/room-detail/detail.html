@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết phòng trọ - Tìm Phòng Trọ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../shared/global.css">
+    <link rel="stylesheet" href="detail.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="container detail-container">
+        <!-- cột thông tin phòng -->
+        <div class="detail-content">
+            <div class="room-images">
+                <img src="" id="detail-image" alt="Phòng trọ" class="main-image">
+                <div class="room-thumbnails" id="detail-thumbnails">
+                </div>
+            </div>
+            
+            <div class="room-info">
+                <h1 class="room-title" id="detail-title">Đang tải...</h1>
+                <p class="room-price" id="detail-price">...</p>
+                <div id="detail-badges" style="margin-bottom: 15px;"></div>
+                
+                <div class="room-meta">
+                    <span><i class="fas fa-ruler-combined"></i> <span id="detail-area">...</span></span>
+                    <span><i class="fas fa-bed"></i> <span id="detail-bed">...</span></span>
+                    <span><i class="fas fa-bath"></i> <span id="detail-bath">...</span></span>
+                    <span style="display: block; width: 100%; margin-top: 10px;"><i class="fas fa-map-marker-alt"></i> <span id="detail-address">...</span></span>
+                </div>
+                
+                <div class="room-description">
+                    <h3>Thông tin mô tả</h3>
+                    <p id="detail-description">Chưa có thông tin mô tả chi tiết cho loại phòng này.</p>
+                </div>
+                
+                <div class="room-amenities">
+                    <h3>Tiện ích nổi bật</h3>
+                    <ul class="amenity-list" id="detail-amenities">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- cột bên phải (liên hệ) -->
+        <aside class="sidebar">
+            <div class="contact-card">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" alt="Avatar Chủ nhà" class="host-avatar">
+                <h3>Nguyễn Văn Nam</h3>
+                <p class="host-badge"><i class="fas fa-check-circle"></i> Chủ nhà đã xác thực</p>
+                
+                <a href="tel:0123456789" class="btn btn-primary"><i class="fas fa-phone-alt"></i> Gọi 0123.456.789</a>
+                <a href="https://zalo.me" class="btn btn-outline" target="_blank"><i class="fas fa-comment-dots"></i> Nhắn tin Zalo</a>
+            </div>
+        </aside>
+    </main>
+
+    <div id="footer-container"></div>
+    
+    <script src="../../core/utils/data.js"></script>
+    <script src="../../shared/main.js"></script>
+    <script src="detail.js"></script>
+</body>
+</html>
