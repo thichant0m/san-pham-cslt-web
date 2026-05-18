@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<!-- Khai báo file HTML5 chuẩn -->
+<html lang="vi">
+<head>
+    <!-- Thiết lập bộ mã ký tự UTF-8 để gõ được tiếng Việt có dấu -->
+    <meta charset="UTF-8">
+    <!-- Cấu hình để trang web hiển thị tốt trên màn hình điện thoại -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Trang Chủ - Website Tìm Trọ, Nhà Nghỉ, Homestay</title>
+    
+    <!-- Liên kết đến file CSS để tạo giao diện, màu sắc cho trang web -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- (1) VÙNG ĐẦU TRANG (HEADER) -->
+    <!-- Thẻ div này dùng làm "nơi chứa" nội dung header dùng chung do Javascript gắn vào -->
+    <div id="header-placeholder"></div>
+
+    <!-- (2) VÙNG NỘI DUNG CHÍNH (BODY) -->
+    <!-- Container giúp gom nội dung vào giữa màn hình, cách lề trái phải cho đẹp -->
+    <div class="container">
+        <!-- Tiêu đề lớn của trang chủ -->
+        <h3>Danh Sách Phòng Nổi Bật</h3>
+        
+        <!-- Khối lưới (grid) để hiển thị danh sách các phòng trọ/nhà nghỉ dạng thẻ -->
+        <div class="grid" id="posts-container">
+            <!-- Dữ liệu phòng trọ sẽ được Javascript lấy từ Backend và đổ vào đây -->
+            <p>Đang tải danh sách phòng trọ...</p>
+        </div>
+    </div>
+
+    <!-- (3) VÙNG CHỨA CÁC ĐOẠN MÃ JAVASCRIPT -->
+    <!-- Gọi file chức năng gọi API kết nối tới Server/Backend -->
+    <script src="assets/js/api.js"></script>
+    
+    <!-- Gọi file code chung để xử lý thanh Header, đăng nhập... -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Viết trực tiếp mã Javascript riêng cho trang chủ này -->
+    <script>
+        // Hàm này tự động chạy để hiển thị bài đăng
+        function loadPosts() {
+            // Danh sách dữ liệu phòng trọ "giả" (dùng tạm khi chưa có Backend)
+            const demoPosts = [
+                {
+                    id: 1,
+                    title: "Phòng trọ khép kín Cầu Giấy (Đầy đủ đồ)",
+                    address: "Ngõ 175 Xuân Thủy, Cầu Giấy, Hà Nội",
+                    price: 2500000,
+                    image: "assets/images/phong-tro-1.jpg" // Đường dẫn ảnh minh họa
+                },
+                {
+                    id: 2,
+                    title: "Nhà nghỉ Bình Dân sạch sẽ",
+                    address: "Đường Láng, Đống Đa, Hà Nội",
+                    price: 200000,
+                    image: "assets/images/nha-nghi-1.jpg"
+                },                
+                {
+                    id: 3,
+                    title: "Homestay Chill Ngoại Thành",
+                    address: "Ba Vì, Hà Nội",
+                    price: 800000,
+                    image: "assets/images/homestay-1.jpg"
+                }
+            ];
+
+            // Tìm cái hộp (div) có id là 'posts-container' ở trên HTML
+            const container = document.getElementById('posts-container');
+            
+            // Lấy danh sách demoPosts, biến mỗi phần tử thành một khối HTML (thẻ card)
+            // .map() là vòng lặp duyệt qua từng phòng
+            // .join('') để nối tất cả các chuỗi HTML đó lại với nhau
+            container.innerHTML = demoPosts.map(room => `
+                <div class="card">
+                    <!-- Bấm vào ảnh sẽ chuyển sang trang xem chi tiết (kèm ID của phòng) -->
+                    <a href="post-detail.html?id=${room.id}">
+                        <!-- style object-fit: cover giúp ảnh không bị méo khi thay đổi kích thước -->
+                        <img src="${room.image}" alt="Ảnh minh họa" style="width: 100%; height: 200px; object-fit: cover; background: #eee;">
+                    </a>
+                    
+                    <!-- Phần chữ thông tin dưới bức ảnh -->
+                    <div class="card-body">
+                        <h4>${room.title}</h4>
+                        <p>📍 ${room.address}</p>
+                        <!-- toLocaleString() giúp hiển thị giá tiền có dấu phân cách hàng nghìn (VD: 2.500.000) -->
+                        <p class="card-price" style="color: red; font-weight: bold;">
+                            Giá: ${room.price.toLocaleString()} VNĐ
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Gọi hàm để đổ dữ liệu ra màn hình ngay khi trang vừa mở lên
+        loadPosts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+san-pham-cslt-web/
+├── backend/
+│   ├── package.json
+│   └── src/
+│       ├── server.js
+│       ├── config/
+│       │   ├── db.js
+│       │   └── Model/
+│       │       └── user.model.js
+│       ├── controllers/
+│       │   ├── admin.controller.js
+│       │   ├── auth.controller.js
+│       │   └── post.controller.js
+│       ├── middleware/
+│       │   ├── auth.middleware.js
+│       │   └── upload.middleware.js
+│       └── routes/
+│           ├── admin.routes.js
+│           ├── auth.routes.js
+│           └── post.routes.js
+│
+└── frontend/
+    ├── admin.html
+    ├── dang-tin.html
+    ├── homestay.html
+    ├── index.html
+    ├── login.html
+    ├── nha-nghi.html
+    ├── phong-tro.html
+    ├── post-create.html
+    ├── post-detail.html
+    ├── register.html
+    ├── tim-kiem-loc.html
+    │
+    ├── assets/
+    │   ├── css/
+    │   │   └── style.css
+    │   ├── images/  (Nơi chứa các hình ảnh của trang web)
+    │   └── js/
+    │       ├── api.js
+    │       └── main.js
+    │
+    └── components/
+        └── header.html  (Phần gốc chứa thanh Navbar chung)

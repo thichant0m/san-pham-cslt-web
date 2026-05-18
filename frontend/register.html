@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Tài Khoản - Hệ Thống Tìm Trọ</title>
+    <!-- Gắn file CSS để làm đẹp giao diện -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Trạm chờ để chèn thanh Điều hướng (Header) bằng JS -->
+    <div id="header-placeholder"></div>
+
+    <div class="container">
+        <!-- class "form-container" giúp bó hẹp chiều rộng lại ở giữa màn hình (đã viết trong style.css) -->
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 20px;">Đăng Ký Thành Viên</h2>
+
+            <!-- Bắt đầu cụm Biểu mẫu (Form) gửi thông tin -->
+            <form id="registerForm">
+                
+                <!-- Nhập Họ và Tên -->
+                <div class="form-group">
+                    <label>Họ và Tên của bạn:</label>
+                    <input type="text" id="name" required placeholder="Ví dụ: Nguyễn Văn A">
+                </div>
+                
+                <!-- Nhập Email -->
+                <div class="form-group">
+                    <label>Địa chỉ Email (Tài khoản):</label>
+                    <input type="email" id="email" required placeholder="hello@gmail.com">
+                </div>
+                
+                <!-- Nhập Mật Khẩu -->
+                <div class="form-group">
+                    <label>Mật khẩu bảo mật:</label>
+                    <input type="password" id="password" required placeholder="Gõ mật khẩu vào đây">
+                </div>
+                
+                <!-- Nút Xác nhận gửi Đăng ký -->
+                <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 16px;">
+                    Đăng Ký Ngay
+                </button>
+            </form>
+
+            <!-- Link điều hướng cho người lỡ bấm nhầm Đăng ký nhưng thật ra đã có nick -->
+            <p style="text-align: center; margin-top: 15px;">
+                Đã có tài khoản? <a href="login.html" style="color: #007bff; text-decoration: underline;">Đăng nhập tại đây</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Nhúng file gọi API và Core JS -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Lấy thẻ Form và thiết lập hành động khi Nút Submit (Đăng ký ngay) bị bấm
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            // e.preventDefault() bắt buộc phải có để trang không bị Refresh (Tải lại) làm mất trắng dữ liệu
+            e.preventDefault(); 
+
+            try {
+                // 1. Phác thảo dữ liệu: Lấy sạch những chữ mà người dùng đang gõ ở 3 ô Name, Email, Password
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                // 2. Gửi dữ liệu đó lên Máy Chủ (Backend) qua đường dẫn (Route) '/auth/register'
+                // Tham số POST nghĩa là "Cầm đồ của tôi gửi lên lưu vào Database giúp tôi với"
+                const data = await apiFetch('/auth/register', 'POST', {
+                    name: name,
+                    email: email,
+                    password: password
+                });
+
+                // 3. Nếu Backend tính toán xong không báo lỗi gì (Đăng ký thành công)
+                alert('Tuyệt vời! Bạn đã đăng ký thành công. Hãy tiến hành Đăng Nhập nha!');
+                
+                // Tự động đá người dùng sang trang Đăng nhập để họ gõ lại mật khẩu
+                window.location.href = 'login.html';
+
+            } catch (err) {
+                // 4. Nếu Server la toán lên lỗi (Email đã bị người khác xài trùng, rớt mạng...)
+                alert('Đăng ký thất bại: ' + err.message);
+            }
+        };
+    </script>
+</body>
+</html>
