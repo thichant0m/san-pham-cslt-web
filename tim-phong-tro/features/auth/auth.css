@@ -1,0 +1,64 @@
+﻿/* ÄÄƒng nháº­p / ÄÄƒng kÃ½ styling */
+.auth-box {
+    max-width: 400px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.auth-box h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.auth-box button {
+    width: 100%;
+}
+/* Validation styles */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 5px;
+    height: 15px; /* Gi? kho?ng tr?ng không b? gi?t trang */
+}
+
+input.input-error {
+    border-color: #e74c3c !important;
+    background-color: #fceceb !important;
+}
+
+input.input-success {
+    border-color: #2ecc71 !important;
+}
+
+/* Container for vertical and horizontal centering */
+.auth-container {
+    min-height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-box {
+    width: 100%;
+    margin: 0; /* Reset previous margin */
+}
+
+/* Center link below form */
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+}

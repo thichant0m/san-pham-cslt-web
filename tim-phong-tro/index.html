@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - Tìm Phòng Trọ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared/global.css">
+    <link rel="stylesheet" href="features/home/home.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="container">
+        <section class="search-section" style="border-radius: 20px; overflow: hidden;">
+            <div class="search-container">
+                <div class="search-box">
+                    <div class="search-input-group">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Nhập địa chỉ, quận, tỉnh thành...">
+                    </div>
+                    
+                    <a href="features/search/search.html" class="btn-search" style="text-decoration: none;"><i class="fas fa-search"></i> Tìm kiếm</a>
+                </div>
+                
+                <div class="search-suggestions">
+                    <span class="suggestion-label">Gợi ý:</span>
+                    <a href="features/search/search.html" class="suggestion-tag">Bình Dương</a>
+                    <a href="features/search/search.html" class="suggestion-tag">TP. Hồ Chí Minh</a>
+                    <a href="features/search/search.html" class="suggestion-tag">Hà Nội</a>
+                    <a href="features/search/search.html" class="suggestion-tag">Đà Nẵng</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="featured" style="padding-top: 40px;">
+            <h2 class="section-title">Phòng trọ nổi bật</h2>
+            
+            <div class="room-grid" id="featured-rooms-container">
+            </div>
+            
+            <div class="view-more">
+                <a href="features/search/search.html" class="btn btn-outline">Xem tất cả phòng trọ <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="core/utils/data.js"></script>
+    <script src="shared/main.js"></script>
+    <script src="features/home/home.js"></script>
+</body>
+</html>
